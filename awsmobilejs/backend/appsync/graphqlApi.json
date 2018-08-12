@@ -1,0 +1,10 @@
+{
+    "name": "nanetisa",
+    "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+    "userPoolConfig": {
+        "userPoolId": "eu-west-1_52y1v7ErL",
+        "awsRegion": "eu-west-1",
+        "defaultAction": "ALLOW",
+        "appIdClientRegex": null
+    }
+}

@@ -1,0 +1,12 @@
+.single-list-product { 
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    .info{
+    width: 500px;
+    display: flex;
+    }
+    .action{
+        width: 300px;
+    }
+}

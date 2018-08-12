@@ -1,0 +1,28 @@
+body {
+  font-family: "Montserrat", Arial, sans-serif; }
+
+button {
+  cursor: pointer; }
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding-top: 20px; }
+
+.main {
+  display: flex;
+  flex-wrap: wrap; }
+  .main .right {
+    margin: 10px;
+    width: 100%;
+    width: 937px; }
+
+.single-list-product {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px; }
+  .single-list-product .info {
+    width: 500px;
+    display: flex; }
+  .single-list-product .action {
+    width: 300px; }
