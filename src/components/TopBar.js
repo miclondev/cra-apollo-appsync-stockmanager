@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Menu } from 'semantic-ui-react'
+import { Menu, Dropdown, Divider, Icon } from 'semantic-ui-react'
+import { Link } from 'react-router-dom';
 
 export default class MenuExampleSecondaryPointing extends Component {
   state = { activeItem: 'home' }
@@ -12,17 +13,32 @@ export default class MenuExampleSecondaryPointing extends Component {
     return (
       <div>
         <Menu pointing secondary>
-          
-          <Menu.Item
-            name='NaneTisa'
-            active={activeItem === 'messages'}
-            onClick={this.handleItemClick}
-          />
-          <Menu.Item
-            name='My Simu'
-            active={activeItem === 'friends'}
-            onClick={this.handleItemClick}
-          />
+
+          <Divider horizontal />
+
+          <Menu.Item>
+           NaneTisa
+          </Menu.Item>
+
+          <Link to="/dashboard">
+          <Menu.Item>
+            Store 1 Dashboard
+          </Menu.Item>
+          </Link>
+
+          <Dropdown item text='Switch Store'>
+            <Dropdown.Menu>
+            <Link to="/store/">
+              <Dropdown.Item> Switch Store</Dropdown.Item> 
+              </Link>
+            
+              <Divider />
+              <Link to="/store/new">
+              <Dropdown.Item>Add New Store <Icon name="add" /> </Dropdown.Item>
+              </Link>
+            </Dropdown.Menu>
+          </Dropdown>
+
           <Menu.Menu position='right'>
             <Menu.Item
               name='Log Out'

@@ -1,31 +1,43 @@
 import React, { Component } from 'react';
-import { Input, Label, Menu } from 'semantic-ui-react';
+import { Input, Label, Menu, Divider } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 export default class MenuExampleSizeVerticalLarge extends Component {
-  state = { activeItem: 'inbox' }
+
+  state = { activeItem: 'dashboard' }
+
   render() {
     const { activeItem } = this.state
 
     return (
       <Menu inverted size='large' vertical>
         <Menu.Item>
-          <Input icon='search' placeholder='Search mail...' />
+          <Input icon='search' placeholder='Search store' />
         </Menu.Item>
 
-        <Link to="/">
-          <Menu.Item name='inbox' active={activeItem === 'inbox'}>
+        <Link to="/dashboard">
+          <Menu.Item name='dashboard' active={activeItem === 'dashboard'}>
             <Label color='teal'>1</Label>
             Dashboard
         </Menu.Item>
         </Link>
 
-        <Link to="/products">
-          <Menu.Item name='spam' active={activeItem === 'spam'}>
-            <Label>51</Label>
-            Products
-        </Menu.Item>
-        </Link>
+        <Menu.Item>
+          <Link to="/dashboard/products">
+            <Menu.Header> All Products</Menu.Header>
+          </Link>
+          <Menu.Menu>
+            <Link to="/dashboard/products/categories">
+              <Menu.Item
+                name='Categories'
+              />
+            </Link>
+            <Menu.Item
+              name='Add Products'
+            />
+
+          </Menu.Menu>
+        </Menu.Item> 
 
         <Menu.Item name='updates' active={activeItem === 'updates'}>
           <Label>1</Label>
@@ -56,8 +68,8 @@ export default class MenuExampleSizeVerticalLarge extends Component {
           Reports
         </Menu.Item>
         <Menu.Item name='updates' active={activeItem === 'updates'}>
-        <Label>1</Label>
-        Targets
+          <Label>1</Label>
+          Targets
       </Menu.Item>
 
       </Menu>

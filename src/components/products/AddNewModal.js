@@ -14,23 +14,11 @@ class AddNewModal extends Component {
             loading: false,
             title: "",
             description: "",
+            stock: true,
             store_id: constants.store_id,
             modal: false
         }
     }
-
-    // onAddProduct = (e) => {
-    //     e.preventDefault()
-    //     const { title, description, store_id } = this.state;
-    //    console.log(this.state)
-    //    this.setState({ loading: true })
-    //    this.props.createProduct({
-    //        variables: { title, description, store_id} 
-    //    }).catch(res => {
-    //        console.log(res)
-    //        this.setState({ loading: false })
-    //    })
-    // }
 
     addProduct = () => {
         this.setState({ loading: true })
@@ -47,8 +35,8 @@ class AddNewModal extends Component {
         return (
             <div>
             
-            <Button onClick={() => this.setState({ modal: true })}> 
-              Add New Product 
+            <Button primary onClick={() => this.setState({ modal: true })}> 
+             New Product 
               </Button>
             <Modal open={this.state.modal} size="tiny">
                 <Modal.Header>Enter Product Details</Modal.Header>
@@ -68,7 +56,9 @@ class AddNewModal extends Component {
                             onChange={e => this.setState({ description: e.target.value })}
                         />
                         <Form.Field>
-                            <Checkbox label='Available' checked />
+                            <Checkbox
+                            onChange={() => this.setState({ stock: !this.state.stock })}
+                            label='In Stock' checked />
                         </Form.Field>
                         <Button type='submit'>Add Product</Button>
                     </Form>

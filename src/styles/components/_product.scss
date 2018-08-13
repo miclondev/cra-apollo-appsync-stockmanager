@@ -7,6 +7,15 @@
     display: flex;
     }
     .action{
-        width: 300px;
+    width: 35%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     }
+}
+
+.products-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }

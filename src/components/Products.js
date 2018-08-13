@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import { Segment, List } from 'semantic-ui-react';
+import { Segment, List, Divider, Icon } from 'semantic-ui-react';
 import { graphql, compose, withApollo } from 'react-apollo';
 import getProducts from '../queries/getProducts';
 import userProducts from '../queries/getAllUserProducts';
 import SingleListProduct from './product/SigleListProduct';
+
 import AddNewModal from './products/AddNewModal';
+import SearchProducts from './products/SearchProducts';
+import ShowInStock from './products/ShowInStock';
+import FilterProducts from './products/FilterProducts';
+
 import { withAuthenticator } from 'aws-amplify-react';
 
 
@@ -23,7 +28,7 @@ class Products extends Component {
   handleSync = async () => {
     const { client } = this.props
     const query = getProducts
-    this.setState({ budy: true })
+    this.setState({ busy: true })
     await client.query({
       query,
       fetchPolicy: 'network-only'
@@ -32,8 +37,12 @@ class Products extends Component {
   }
 
   render() {
-      if (this.props.data.loading) {
-        return <div>loading ......</div>
+
+    if (this.props.authState !== "signedIn") {
+      return <div> Loading .... </div>
+    }
+    if (this.props.data.loading) {
+      return <div>loading ......</div>
     }
 
     console.log(this.props)
@@ -41,12 +50,17 @@ class Products extends Component {
     return (
       <div className="right">
         <Segment>
-          <div>
+          <div className="products-header">
+            <Icon bordered size="large" name="barcode" />
+            <FilterProducts />
+            <ShowInStock />
+            <SearchProducts />
             <AddNewModal />
           </div>
+          <Divider section />
           <List divided>
             {
-              this.renderProducts()
+              //  this.renderProducts()
             }
           </List>
         </Segment>
@@ -55,6 +69,14 @@ class Products extends Component {
   }
 }
 
-export default withAuthenticator(graphql(userProducts,{
-  options: (props) => { return { variables: { user_id: props.authData.username }}}
-})(Products));
+export default withAuthenticator(
+  graphql(userProducts,
+    {
+      options: ({ authData }) =>
+        ({
+          variables: { user_id: authData.username }
+        }
+        ),
+      fetchPolicy: 'cache-first'
+    })(Products)
+);

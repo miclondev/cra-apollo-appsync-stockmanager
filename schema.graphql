@@ -1,0 +1,556 @@
+type Category {
+	category_id: ID!
+	cat_name: String
+	cat_for: String
+	user_id: String
+	store_id: String
+	created_on: String
+	updated_on: String
+}
+
+type CategoryConnection {
+	items: [Category]
+	nextToken: String
+}
+
+input CreateCategoryInput {
+	category_id: ID!
+	cat_name: String
+	cat_for: String
+	user_id: String
+	store_id: String
+	created_on: String
+	updated_on: String
+}
+
+input CreateCustomerInput {
+	email: String
+	number: Int
+	city: String
+	street: String
+	more_info: String
+	joined_on: String
+	user_id: String
+	store_id: String
+}
+
+input CreateExpenseInput {
+	type: String
+	amount: Int
+	description: String
+	category_id: String
+	created_on: String
+}
+
+input CreateProductInput {
+	store_id: ID!
+	title: String!
+	category_id: String
+	Bprice: Int
+	SPrice: Int
+	Description: String
+	Link: String
+}
+
+input CreateStoreInput {
+	store_name: String!
+	description: String
+	store_logo: String
+}
+
+input CreateTargetsInput {
+	target_id: ID!
+	target_name: String
+	target_from: String
+	target_by: String
+	target_for: String
+	user_id: String
+	store_id: String
+	created_on: String
+	updated_on: String
+}
+
+type Customer {
+	customer_id: ID!
+	email: String
+	number: Int
+	city: String
+	street: String
+	more_info: String
+	joined_on: String
+	user_id: String
+	store_id: String
+	created_on: String
+	updated_on: String
+}
+
+type CustomerConnection {
+	items: [Customer]
+	nextToken: String
+}
+
+input DeleteCategoryInput {
+	category_id: ID!
+}
+
+input DeleteCustomerInput {
+	customer_id: ID!
+}
+
+input DeleteExpenseInput {
+	expense_id: ID!
+}
+
+input DeleteProductInput {
+	product_id: ID!
+}
+
+input DeleteStoreInput {
+	store_id: ID!
+}
+
+input DeleteTargetsInput {
+	target_id: ID!
+}
+
+type Mutation {
+	createProduct(input: CreateProductInput!): Product
+	updateProduct(input: UpdateProductInput!): Product
+	deleteProduct(input: DeleteProductInput!): Product
+	createStore(input: CreateStoreInput!): Store
+	updateStore(input: UpdateStoreInput!): Store
+	deleteStore(input: DeleteStoreInput!): Store
+	createCustomer(input: CreateCustomerInput!): Customer
+	updateCustomer(input: UpdateCustomerInput!): Customer
+	deleteCustomer(input: DeleteCustomerInput!): Customer
+	createExpense(input: CreateExpenseInput!): expense
+	updateExpense(input: UpdateExpenseInput!): expense
+	deleteExpense(input: DeleteExpenseInput!): expense
+	sellProduct(input: SellProductInput!): response
+	createCategory(input: CreateCategoryInput!): Category
+	updateCategory(input: UpdateCategoryInput!): Category
+	deleteCategory(input: DeleteCategoryInput!): Category
+	createTargets(input: CreateTargetsInput!): Targets
+	updateTargets(input: UpdateTargetsInput!): Targets
+	deleteTargets(input: DeleteTargetsInput!): Targets
+}
+
+type Product {
+	product_id: ID!
+	store_id: Store
+	category_id: String
+	user_id: String
+	title: String!
+	Bprice: Int
+	Description: String
+	Link: String
+	image: String
+	created_on: String
+	updated_on: String
+}
+
+type ProductConnection {
+	items: [Product]
+	nextToken: String
+}
+
+type Query {
+	fetchProducts: [Product]!
+	getProduct(product_id: ID!): Product
+	listProductsFromStore(store_id: ID!): ProductConnection
+	listProducts(filter: TableProductFilterInput, limit: Int, nextToken: String): ProductConnection
+	getStore(store_id: ID!): Store
+	listStores(filter: TableStoreFilterInput, limit: Int, nextToken: String): StoreConnection
+	getCustomer(customer_id: ID!): Customer
+	listCustomers(filter: TableCustomerFilterInput, limit: Int, nextToken: String): CustomerConnection
+	queryCustomersByStoreIdEmailIndex(store_id: String!, first: Int, after: String): CustomerConnection
+	getExpense(expense_id: ID!): expense
+	listExpenses(filter: TableExpenseFilterInput, limit: Int, nextToken: String): expenseConnection
+	queryExpensesByExpenseIdTypeIndex(type: String!, first: Int, after: String): expenseConnection
+	listProductsFromUser(user_id: ID!): ProductConnection
+	getCategory(category_id: ID!): Category
+	listCategories(filter: TableCategoryFilterInput, limit: Int, nextToken: String): CategoryConnection
+	queryCategoriesByCategoryIdCatNameIndex(store_id: String!, first: Int, after: String): CategoryConnection
+	getTargets(target_id: ID!): Targets
+	listTargets(filter: TableTargetsFilterInput, limit: Int, nextToken: String): TargetsConnection
+	queryTargetsByStoreIdCreatedOnIndex(store_id: String!, first: Int, after: String): TargetsConnection
+}
+
+input SellProductInput {
+	product_id: ID!
+	bprice: Int
+	sprice: Int
+}
+
+type Store {
+	store_id: ID!
+	user_id: ID!
+	store_name: String
+	store_logo: String
+	description: String
+	created_on: String
+	updated_on: String
+}
+
+type StoreConnection {
+	items: [Store]
+	nextToken: String
+}
+
+type Subscription {
+	onCreateProduct(
+		product_id: ID,
+		store_id: ID,
+		title: String,
+		Bprice: Int,
+		SPrice: Int
+	): Product
+		@aws_subscribe(mutations: ["createProduct"])
+	onUpdateProduct(
+		product_id: ID,
+		store_id: ID,
+		title: String,
+		Bprice: Int,
+		SPrice: Int
+	): Product
+		@aws_subscribe(mutations: ["updateProduct"])
+	onDeleteProduct(
+		product_id: ID,
+		store_id: ID,
+		title: String,
+		Bprice: Int,
+		SPrice: Int
+	): Product
+		@aws_subscribe(mutations: ["deleteProduct"])
+	onCreateStore(
+		store_id: ID,
+		user_id: ID,
+		store_name: String,
+		store_image: String,
+		description: String
+	): Store
+		@aws_subscribe(mutations: ["createStore"])
+	onUpdateStore(
+		store_id: ID,
+		user_id: ID,
+		store_name: String,
+		store_image: String,
+		description: String
+	): Store
+		@aws_subscribe(mutations: ["updateStore"])
+	onDeleteStore(
+		store_id: ID,
+		user_id: ID,
+		store_name: String,
+		store_image: String,
+		description: String
+	): Store
+		@aws_subscribe(mutations: ["deleteStore"])
+	onCreateCustomer(
+		customer_id: ID,
+		email: String,
+		number: Int,
+		city: String,
+		street: String
+	): Customer
+		@aws_subscribe(mutations: ["createCustomer"])
+	onUpdateCustomer(
+		customer_id: ID,
+		email: String,
+		number: Int,
+		city: String,
+		street: String
+	): Customer
+		@aws_subscribe(mutations: ["updateCustomer"])
+	onDeleteCustomer(
+		customer_id: ID,
+		email: String,
+		number: Int,
+		city: String,
+		street: String
+	): Customer
+		@aws_subscribe(mutations: ["deleteCustomer"])
+	onCreateExpense(
+		expense_id: ID,
+		type: String,
+		amount: Int,
+		description: String,
+		created_on: String
+	): expense
+		@aws_subscribe(mutations: ["createExpense"])
+	onUpdateExpense(
+		expense_id: ID,
+		type: String,
+		amount: Int,
+		description: String,
+		created_on: String
+	): expense
+		@aws_subscribe(mutations: ["updateExpense"])
+	onDeleteExpense(
+		expense_id: ID,
+		type: String,
+		amount: Int,
+		description: String,
+		created_on: String
+	): expense
+		@aws_subscribe(mutations: ["deleteExpense"])
+	onCreateCategory(
+		category_id: ID,
+		cat_name: String,
+		cat_for: String,
+		user_id: String,
+		store_id: String
+	): Category
+		@aws_subscribe(mutations: ["createCategory"])
+	onUpdateCategory(
+		category_id: ID,
+		cat_name: String,
+		cat_for: String,
+		user_id: String,
+		store_id: String
+	): Category
+		@aws_subscribe(mutations: ["updateCategory"])
+	onDeleteCategory(
+		category_id: ID,
+		cat_name: String,
+		cat_for: String,
+		user_id: String,
+		store_id: String
+	): Category
+		@aws_subscribe(mutations: ["deleteCategory"])
+	onCreateTargets(
+		target_id: ID,
+		target_name: String,
+		target_from: String,
+		target_by: String,
+		target_for: String
+	): Targets
+		@aws_subscribe(mutations: ["createTargets"])
+	onUpdateTargets(
+		target_id: ID,
+		target_name: String,
+		target_from: String,
+		target_by: String,
+		target_for: String
+	): Targets
+		@aws_subscribe(mutations: ["updateTargets"])
+	onDeleteTargets(
+		target_id: ID,
+		target_name: String,
+		target_from: String,
+		target_by: String,
+		target_for: String
+	): Targets
+		@aws_subscribe(mutations: ["deleteTargets"])
+}
+
+input TableBooleanFilterInput {
+	ne: Boolean
+	eq: Boolean
+}
+
+input TableCategoryFilterInput {
+	category_id: TableIDFilterInput
+	cat_name: TableStringFilterInput
+	cat_for: TableStringFilterInput
+	user_id: TableStringFilterInput
+	store_id: TableStringFilterInput
+	created_on: TableStringFilterInput
+	updated_on: TableStringFilterInput
+}
+
+input TableCustomerFilterInput {
+	customer_id: TableIDFilterInput
+	email: TableStringFilterInput
+	number: TableIntFilterInput
+	city: TableStringFilterInput
+	street: TableStringFilterInput
+	more_info: TableStringFilterInput
+	joined_on: TableStringFilterInput
+	user_id: TableStringFilterInput
+	store_id: TableStringFilterInput
+}
+
+input TableExpenseFilterInput {
+	expense_id: TableIDFilterInput
+	type: TableStringFilterInput
+	amount: TableIntFilterInput
+	description: TableStringFilterInput
+	created_on: TableStringFilterInput
+}
+
+input TableFloatFilterInput {
+	ne: Float
+	eq: Float
+	le: Float
+	lt: Float
+	ge: Float
+	gt: Float
+	contains: Float
+	notContains: Float
+	between: [Float]
+}
+
+input TableIDFilterInput {
+	ne: ID
+	eq: ID
+	le: ID
+	lt: ID
+	ge: ID
+	gt: ID
+	contains: ID
+	notContains: ID
+	between: [ID]
+	beginsWith: ID
+}
+
+input TableIntFilterInput {
+	ne: Int
+	eq: Int
+	le: Int
+	lt: Int
+	ge: Int
+	gt: Int
+	contains: Int
+	notContains: Int
+	between: [Int]
+}
+
+input TableProductFilterInput {
+	product_id: TableIDFilterInput
+	store_id: TableIDFilterInput
+	title: TableStringFilterInput
+	Bprice: TableIntFilterInput
+	SPrice: TableIntFilterInput
+	Description: TableStringFilterInput
+	Link: TableStringFilterInput
+}
+
+input TableStoreFilterInput {
+	store_id: TableIDFilterInput
+	user_id: TableIDFilterInput
+	store_name: TableStringFilterInput
+	store_image: TableStringFilterInput
+	description: TableStringFilterInput
+	image: TableStringFilterInput
+}
+
+input TableStringFilterInput {
+	ne: String
+	eq: String
+	le: String
+	lt: String
+	ge: String
+	gt: String
+	contains: String
+	notContains: String
+	between: [String]
+	beginsWith: String
+}
+
+input TableTargetsFilterInput {
+	target_id: TableIDFilterInput
+	target_name: TableStringFilterInput
+	target_from: TableStringFilterInput
+	target_by: TableStringFilterInput
+	target_for: TableStringFilterInput
+	user_id: TableStringFilterInput
+	store_id: TableStringFilterInput
+	created_on: TableStringFilterInput
+	updated_on: TableStringFilterInput
+}
+
+type Targets {
+	target_id: ID!
+	target_name: String
+	target_from: String
+	target_by: String
+	target_for: String
+	user_id: String
+	store_id: String
+	created_on: String
+	updated_on: String
+}
+
+type TargetsConnection {
+	items: [Targets]
+	nextToken: String
+}
+
+input UpdateCategoryInput {
+	category_id: ID!
+	cat_name: String
+	cat_for: String
+	user_id: String
+	store_id: String
+	created_on: String
+	updated_on: String
+}
+
+input UpdateCustomerInput {
+	customer_id: ID!
+	email: String
+	number: Int
+	city: String
+	street: String
+	more_info: String
+	joined_on: String
+	user_id: String
+	store_id: String
+}
+
+input UpdateExpenseInput {
+	expense_id: ID!
+	type: String
+	amount: Int
+	description: String
+	created_on: String
+}
+
+input UpdateProductInput {
+	product_id: ID!
+	store_id: ID
+	title: String
+	Bprice: Int
+	SPrice: Int
+	Description: String
+	Link: String
+}
+
+input UpdateStoreInput {
+	store_id: ID!
+	user_id: ID
+	store_name: String
+	store_image: String
+	description: String
+	image: String
+}
+
+input UpdateTargetsInput {
+	target_id: ID!
+	target_name: String
+	target_from: String
+	target_by: String
+	target_for: String
+	user_id: String
+	store_id: String
+	created_on: String
+	updated_on: String
+}
+
+type expense {
+	expense_id: ID!
+	type: String
+	amount: Int
+	description: String
+	created_on: String
+}
+
+type expenseConnection {
+	items: [expense]
+	nextToken: String
+}
+
+type response {
+	response: String
+}

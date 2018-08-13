@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Button, Icon } from 'semantic-ui-react';
+import { Image, Button, Icon, Divider } from 'semantic-ui-react';
 
 const Product = (props) => (
   <div key={props.id} className="single-list-product">
@@ -15,6 +15,7 @@ const Product = (props) => (
       <Button icon> <Icon name='edit outline' /></Button>
       
     </div>
+    <Divider/>
   </div>
 )
 
