@@ -23,27 +23,27 @@ const client = new AWSAppSyncClient({
     auth: {
         type: 'AMAZON_COGNITO_USER_POOLS',
         apiKey:  "da2-fy5w7nwjgbht5bloibtq7kvocu",
-        credentials: () => Auth.currentCredentials(),
+        //credentials: () => Auth.currentCredentials(),
         jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken(), 
     },
     complexObjectsCredentials: () => Auth.currentCredentials(),
-    disableOffline: true,
-//    cacheOptions: {
-//        dataIdFromObject: (obj) => {
-//            let id = defaultDataIdFromObject(obj)
-//            if(!id){
-//                const { _typename: typename} = obj;
-//                switch(typename){
-//                    case 'Product':
-//                    return `${typename}:${obj.product_id}`
-//                    default:
-//                    return id
-//                }
-//            }
-//            return id
-//        }
+   // disableOffline: true,
+   cacheOptions: {
+       dataIdFromObject: (obj) => {
+           let id = defaultDataIdFromObject(obj)
+           if(!id){
+               const { __typename : typename} = obj;
+               switch(typename){
+                   case 'Product':
+                   return `${typename}:${obj.product_id}`
+                   default:
+                   return id
+               }
+           }
+           return id
+       }
   
-//    }
+   }
 })
 
 

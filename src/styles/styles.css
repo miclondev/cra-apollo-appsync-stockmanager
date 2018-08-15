@@ -20,10 +20,24 @@ button {
 .single-list-product {
   display: flex;
   justify-content: space-between;
-  margin: 10px; }
+  margin: 10px;
+  margin: 10px;
+  min-height: 70px;
+  border-bottom: #e4e1e1 1px solid; }
   .single-list-product .info {
     width: 500px;
-    display: flex; }
+    display: flex;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; }
+    .single-list-product .info a {
+      display: flex;
+      color: inherit; }
+      .single-list-product .info a p {
+        margin-left: 10px; }
+    .single-list-product .info .labels {
+      display: flex; }
   .single-list-product .action {
     width: 35%;
     display: flex;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Label, Menu, Divider } from 'semantic-ui-react';
+import { Input, Label, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 export default class MenuExampleSizeVerticalLarge extends Component {

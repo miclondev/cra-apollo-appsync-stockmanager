@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import { Menu, Dropdown, Divider, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
+import { withApollo } from 'react-apollo';
 
-export default class MenuExampleSecondaryPointing extends Component {
+class TopBar extends Component {
   state = { activeItem: 'home' }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   render() {
     const { activeItem } = this.state
-
+    console.log(this.props)
     return (
       <div>
         <Menu pointing secondary>
@@ -52,3 +53,5 @@ export default class MenuExampleSecondaryPointing extends Component {
     )
   }
 }
+
+export default withApollo(TopBar)

@@ -24,7 +24,7 @@ const dashboardRoutes = ({ match }) => {
 const storeRoutes = ({ match }) => {
   return (
     <div className="container">
-      <Route path={`${match.url}`} component={SwitchStore} />
+      <Route path={`${match.url}`} component={SwitchStore} exact />
       <Route path={`${match.url}/new`} component={AddStore} exact />
     </div>
   )

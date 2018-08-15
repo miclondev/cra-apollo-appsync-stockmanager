@@ -1,15 +1,14 @@
 import gql from 'graphql-tag'
 
 export default gql`
-query getUserProducts($user_id: ID!) {
-    listProductsFromUser(user_id: $user_id){
+query getUserProducts{
+    listProductsFromUser{
       items{
         product_id
         title
-        Description
-        store_id{
-          store_name
-        }
+        description
+        created_on
+        stock
       }
     }
   }

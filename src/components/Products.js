@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Segment, List, Divider, Icon } from 'semantic-ui-react';
-import { graphql, compose, withApollo } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import getProducts from '../queries/getProducts';
 import userProducts from '../queries/getAllUserProducts';
 import SingleListProduct from './product/SigleListProduct';
@@ -15,40 +15,39 @@ import { withAuthenticator } from 'aws-amplify-react';
 
 class Products extends Component {
 
-  renderProducts = () => {
-    console.log(this.props)
-    const { listProductsFromUser } = this.props.data
-    return listProductsFromUser.items.map(({ title, product_id }) => {
-      return (
-        <SingleListProduct title={title} id={product_id} key={product_id} />
-      )
-    })
+  static defaultProps = {
+    products: [],
+    network: 1
   }
 
-  handleSync = async () => {
-    const { client } = this.props
-    const query = getProducts
-    this.setState({ busy: true })
-    await client.query({
-      query,
-      fetchPolicy: 'network-only'
+  renderProducts = () => {
+    //console.log(this.props)
+    const { products } = this.props
+    return products.map(({ title, product_id, created_on, stock }) => {
+      return (
+        <SingleListProduct
+          title={title}
+          id={product_id}
+          key={product_id}
+          date={created_on}
+          stock={stock}
+        />
+      )
     })
-    this.setState({ busy: false })
   }
 
   render() {
 
     if (this.props.authState !== "signedIn") {
+      //checked signed in
       return <div> Loading .... </div>
-    }
-    if (this.props.data.loading) {
-      return <div>loading ......</div>
     }
 
     console.log(this.props)
 
     return (
       <div className="right">
+        {this.props.network < 7 && <div>Loading ...</div>}
         <Segment>
           <div className="products-header">
             <Icon bordered size="large" name="barcode" />
@@ -60,7 +59,7 @@ class Products extends Component {
           <Divider section />
           <List divided>
             {
-              //  this.renderProducts()
+              this.renderProducts()
             }
           </List>
         </Segment>
@@ -69,14 +68,17 @@ class Products extends Component {
   }
 }
 
+
 export default withAuthenticator(
-  graphql(userProducts,
-    {
-      options: ({ authData }) =>
-        ({
-          variables: { user_id: authData.username }
-        }
-        ),
-      fetchPolicy: 'cache-first'
-    })(Products)
-);
+  graphql(userProducts, {
+    options: {
+      fetchPolicy: 'cache-and-network'
+    },
+    props: props => {
+      console.log('this is', props)
+      return {
+        products: props.data.listProductsFromUser ? props.data.listProductsFromUser.items : [],
+        network: props.data.networkStatus
+      }
+    }
+  })(Products))
