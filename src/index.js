@@ -22,7 +22,7 @@ const client = new AWSAppSyncClient({
     region: "eu-west-1",
     auth: {
         type: 'AMAZON_COGNITO_USER_POOLS',
-        apiKey:  "da2-fy5w7nwjgbht5bloibtq7kvocu",
+        //apiKey:  "da2-fy5w7nwjgbht5bloibtq7kvocu",
         //credentials: () => Auth.currentCredentials(),
         jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken(), 
     },
@@ -36,6 +36,8 @@ const client = new AWSAppSyncClient({
                switch(typename){
                    case 'Product':
                    return `${typename}:${obj.product_id}`
+                   case 'Category':
+                   return `${typename}:${obj.category_id}`
                    default:
                    return id
                }

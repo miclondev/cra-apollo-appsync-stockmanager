@@ -48,3 +48,21 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between; }
+
+.product-categories {
+  display: flex;
+  flex: 8;
+  flex-wrap: wrap; }
+  .product-categories .form {
+    flex: 3;
+    margin-right: 20px; }
+  .product-categories .categories {
+    flex: 5; }
+
+.category-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px;
+  padding: 10px;
+  border-bottom: #ece3e3 1px solid; }

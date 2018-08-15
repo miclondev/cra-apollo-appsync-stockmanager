@@ -5,7 +5,7 @@ import { graphql } from 'react-apollo';
 //import { graphqlMutation } from 'aws-appsync-react';
 import addNewProduct from '../../mutations/addNewProduct'
 import userProducts from '../../queries/getAllUserProducts';
-const uuidv1 = require('uuid/v1');
+import  uuidv1 from 'uuid/v1';
 
 class AddNewModal extends Component {
 
