@@ -7,6 +7,7 @@ import addCategory from '../../mutations/addCategory';
 import getCategories from '../../queries/getProductCategories';
 import deleteCategory from '../../mutations/deleteCategory';
 import uuidv1 from 'uuid/v1';
+import _ from 'lodash';
 
 class ProductCategories extends Component {
 
@@ -18,7 +19,9 @@ class ProductCategories extends Component {
     }
 
     static defaultProps = {
-        categories: []
+        categories: [],
+        deleteCategory: () => null,
+        createCategory: () => null
     }
 
     renderCats = () => {
@@ -29,9 +32,12 @@ class ProductCategories extends Component {
                     <List.Header > {cat.cat_name}</List.Header>
                 </List.Content>
                 <List.Content>
-                <Button> <Icon name='edit' /></Button>
-                <Button> <Icon name='delete' /></Button>
-              </List.Content>
+                    <Button> <Icon name='edit' /></Button>
+                    <Button
+                        onClick={e => this.handleDeleteClick(cat, e)}>
+                        <Icon name='delete' />
+                    </Button>
+                </List.Content>
             </div>
         ))
         )
@@ -46,21 +52,18 @@ class ProductCategories extends Component {
             store_id: constants.store_id,
             cat_for: 'Products'
         })
-        this.setState({ cat_name: ""})
+        this.setState({ cat_name: "" })
     }
 
-    async handleDeleteClick(event, e) {
+    handleDeleteClick = (cat, e) => {
+        //console.log(cat)
         e.preventDefault();
-
-        if (window.confirm(`Are you sure you want to delete event ${event.id}`)) {
-            const { deleteCategory } = this.props;
-
-            await deleteCategory(event);
-        }
+        const { deleteCategory } = this.props;
+        deleteCategory(cat);
     }
 
     render() {
-         console.log('cat', this.props)
+        console.log('cat', this.props)
         return (
             <div className="right">
                 <Segment>
@@ -102,68 +105,77 @@ class ProductCategories extends Component {
 export default compose(
     graphql(getCategories, {
         options: (props) => {
-            console.log('before option props',props)
+            console.log('before option props', props)
             return {
                 variables: {
-                 store_id: constants.store_id 
+                    store_id: constants.store_id
                 },
                 fetchPolicy: 'cache-and-network'
             }
         },
         props: props => {
-            console.log('after props',props)
+            console.log('after props', props)
             return {
                 categories: props.data.listCategoriesStoreId ? props.data.listCategoriesStoreId.items : []
             }
         }
     }),
-    graphql(addCategory, 
+    graphql(addCategory,
         {
-        props: (props) => ({
-            createCategory: (category) => {
-               return props.mutate({
-                    update: (proxy, { data: { createCategory } }) => {
-                        const query = getCategories
-                        const data = proxy.readQuery({ query,
-                        variables: { store_id: constants.store_id }
-                        })
+            props: (props) => ({
+                createCategory: (category) => {
+                    return props.mutate({
+                        update: (proxy, { data: { createCategory } }) => {
+                            const query = getCategories
+                            const data = proxy.readQuery({
+                                query,
+                                variables: { store_id: constants.store_id }
+                            })
 
-                        data.listCategoriesStoreId.items.unshift(createCategory)
-                        proxy.writeQuery({ query,variables:{ store_id: constants.store_id }, data })
+                            data.listCategoriesStoreId.items.unshift(createCategory)
+                            proxy.writeQuery({ query, variables: { store_id: constants.store_id }, data })
+                        },
+                        variables: category,
+                        optimisticResponse: () => ({
+                            createCategory: {
+                                ...category, category_id: uuidv1(), __typename: 'Category'
+                            }
+                        })
+                    })
+                }
+            })
+        }),
+
+    ///change order of option and props
+    graphql(deleteCategory, {
+        name: 'delete',
+        props: (props) => ({
+            deleteCategory: (category) => {
+                return props.delete({
+                    update: (proxy, { data: { deleteCategory } }) => {
+                        const query = getCategories
+                        const data = proxy.readQuery({
+                            query,
+                            variables: { store_id: constants.store_id }
+                        })
+                        console.log('data', data.listCategoriesStoreId.items)
+                        console.log(deleteCategory.category_id)
+                        //data.listCategoriesStoreId.items.filter(cat => cat.category_id !== deleteCategory.category_id)
+                        console.log(data.listCategoriesStoreId.items)
+                        _.remove(data.listCategoriesStoreId.items, function(n){
+                            return n.category_id === deleteCategory.category_id
+                        })
+                       
+                        proxy.writeQuery({ query, variables: { store_id: constants.store_id }, data })
                     },
                     variables: category,
                     optimisticResponse: () => ({
-                        createCategory: {
-                            ...category, category_id: uuidv1(), __typename: 'Category'
+                        deleteCategory: {
+                            ...category, __typename: 'Category'
                         }
                     })
                 })
             }
         })
-    }),
-
-    ///change order of option and props
-    graphql(deleteCategory,{
-        name: 'delete',
-        options: {
-            update: (proxy, { data: { deleteCategory }}) => {
-                const query = getCategories
-                const data = proxy.readQuery({ query,
-                variables: { store_id: constants.store_id }
-                })
-                data.listCategoriesStoreId.items.filter(cat => cat.id !== deleteCategory.category_id)
-                proxy.writeQuery({ query,variables:{ store_id: constants.store_id }, data })
-            },
-            props: (props) => ({
-                deleteCategory: (category) => {
-                    return props.mutate({
-                        variables: { category_id: category.category_id},
-                        optimisticResponse: {
-                            ...category,__typename: 'Category'
-                        }
-                    })
-                }
-            })
-        }
     })
 )(ProductCategories);

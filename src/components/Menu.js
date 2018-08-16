@@ -33,7 +33,7 @@ export default class MenuExampleSizeVerticalLarge extends Component {
               />
             </Link>
             <Menu.Item
-              name='Add Products'
+              name='Add Multiple Products'
             />
 
           </Menu.Menu>
