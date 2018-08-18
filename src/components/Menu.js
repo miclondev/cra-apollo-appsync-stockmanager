@@ -29,7 +29,7 @@ export default class MenuExampleSizeVerticalLarge extends Component {
           <Menu.Menu>
             <Link to="/dashboard/products/categories">
               <Menu.Item
-                name='Categories'
+                name='Product Categories'
               />
             </Link>
             <Menu.Item
