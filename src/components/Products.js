@@ -16,7 +16,7 @@ import FilterProducts from './products/FilterProducts';
 
 import constants from '../config/constants';
 
-import { withAuthenticator } from 'aws-amplify-react';
+//import { withAuthenticator } from 'aws-amplify-react';
 
 class Products extends Component {
 
@@ -32,7 +32,8 @@ class Products extends Component {
     return products.map(product => {
       return (
         <SingleListProduct
-        product={product}
+          product={product}
+          key={product.product_id}
         />
       )
     })
@@ -45,7 +46,7 @@ class Products extends Component {
     //   return <div> Loading .... </div>
     // }
 
-    console.log(this.props)
+    //console.log(this.props)
 
     return (
       <div className="right">

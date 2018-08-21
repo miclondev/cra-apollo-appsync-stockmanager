@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export default gql`
-    mutation sellProduct($product_id: ID!, $shop_id: String,
-     $product_price: String, $selling_price: String, $tax: Int,
+    mutation sellProduct($product_id: ID!, $shop_id: ID!,
+     $product_price: Int, $selling_price: Int, $tax: Int,
      $stock: Int 
      ){
         sellProduct(input:

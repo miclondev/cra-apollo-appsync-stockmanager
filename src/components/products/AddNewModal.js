@@ -45,7 +45,7 @@ class AddNewModal extends Component {
     close = () => this.setState({ modal: false })
 
     render() {
-        console.log(this.props)
+        //console.log(this.props)
         return (
             <div>
 
