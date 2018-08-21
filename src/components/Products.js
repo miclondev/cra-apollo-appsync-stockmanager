@@ -3,7 +3,7 @@ import { Segment, List, Divider, Icon } from 'semantic-ui-react';
 import { graphql, compose } from 'react-apollo';
 
 //queries and mutations
-import getProducts from '../queries/getProducts';
+//import getProducts from '../queries/getProducts';
 import userProducts from '../queries/getAllUserProducts';
 import getCategories from '../queries/getProductCategories';
 
@@ -29,14 +29,10 @@ class Products extends Component {
   renderProducts = () => {
     //console.log(this.props)
     const { products } = this.props
-    return products.map(({ title, product_id, created_on, stock }) => {
+    return products.map(product => {
       return (
         <SingleListProduct
-          title={title}
-          id={product_id}
-          key={product_id}
-          date={created_on}
-          stock={stock}
+        product={product}
         />
       )
     })
@@ -81,7 +77,7 @@ export default compose(
       fetchPolicy: 'cache-and-network'
     },
     props: props => {
-      console.log('this is', props)
+      //console.log('this is', props)
       return {
         products: props.data.listProductsFromUser ? props.data.listProductsFromUser.items : [],
         network: props.data.networkStatus
@@ -90,7 +86,7 @@ export default compose(
   }),
   graphql(getCategories, {
     options: (props) => {
-      console.log('before option props', props)
+      //console.log('before option props', props)
       return {
         variables: {
           store_id: constants.store_id
@@ -99,7 +95,7 @@ export default compose(
       }
     },
     props: props => {
-      console.log('after props', props)
+      //console.log('after props', props)
       return {
         categories: props.data.listCategoriesStoreId ? props.data.listCategoriesStoreId.items : []
       }
