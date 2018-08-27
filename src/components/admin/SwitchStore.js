@@ -23,6 +23,13 @@ const SwitchStore = (props) => {
     )
 }
 
+
+//switch to cache firtst
 export default withAuthenticator(
-    graphql(getUserStores,{ name: 'stores'})(SwitchStore)
+    graphql(getUserStores,{
+         name: 'stores',
+         options: {
+             fetchPolicy: 'cache-and-network'
+         }
+})(SwitchStore)
 )

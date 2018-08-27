@@ -22,3 +22,19 @@ button {
         width: 937px;
     }
 }
+
+.center-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-center-flex {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.add-product-form {
+    padding: 40px;
+}

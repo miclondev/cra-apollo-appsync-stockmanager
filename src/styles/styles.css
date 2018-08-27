@@ -17,6 +17,19 @@ button {
     width: 100%;
     width: 937px; }
 
+.center-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.left-center-flex {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; }
+
+.add-product-form {
+  padding: 40px; }
+
 .single-list-product {
   display: flex;
   justify-content: space-between;
@@ -48,6 +61,12 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between; }
+
+.product-price-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 40%; }
 
 .product-categories {
   display: flex;

@@ -63,7 +63,7 @@ class ProductCategories extends Component {
     }
 
     render() {
-        console.log('cat', this.props)
+       // console.log('cat', this.props)
         return (
             <div className="right">
                 <Segment>
@@ -105,7 +105,7 @@ class ProductCategories extends Component {
 export default compose(
     graphql(getCategories, {
         options: (props) => {
-            console.log('before option props', props)
+            //console.log('before option props', props)
             return {
                 variables: {
                     store_id: constants.store_id
@@ -113,12 +113,9 @@ export default compose(
                 fetchPolicy: 'cache-and-network'
             }
         },
-        props: props => {
-            console.log('after props', props)
-            return {
+        props: props => ({
                 categories: props.data.listCategoriesStoreId ? props.data.listCategoriesStoreId.items : []
-            }
-        }
+            })  
     }),
     graphql(addCategory,
         {
@@ -158,10 +155,6 @@ export default compose(
                             query,
                             variables: { store_id: constants.store_id }
                         })
-                        console.log('data', data.listCategoriesStoreId.items)
-                        console.log(deleteCategory.category_id)
-                        //data.listCategoriesStoreId.items.filter(cat => cat.category_id !== deleteCategory.category_id)
-                        console.log(data.listCategoriesStoreId.items)
                         _.remove(data.listCategoriesStoreId.items, function(n){
                             return n.category_id === deleteCategory.category_id
                         })
@@ -171,7 +164,7 @@ export default compose(
                     variables: category,
                     optimisticResponse: () => ({
                         deleteCategory: {
-                            ...category, __typename: 'Category'
+                            ...category, category_id: uuidv1() , __typename: 'Category'
                         }
                     })
                 })

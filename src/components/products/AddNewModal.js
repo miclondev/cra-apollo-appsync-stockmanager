@@ -52,6 +52,7 @@ class AddNewModal extends Component {
                 <Button primary onClick={() => this.setState({ modal: true })}>
                     New Product
                </Button>
+               
                 <Modal open={this.state.modal} size="tiny" onClose={this.close}>
                     <Modal.Header>Enter Product Details</Modal.Header>
                     <Modal.Content>

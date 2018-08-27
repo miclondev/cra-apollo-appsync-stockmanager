@@ -8,7 +8,11 @@ query getUserProducts{
         title
         description
         created_on
+        initial_cost
         stock
+        retail
+        wholesale
+        offer
       }
     }
   }

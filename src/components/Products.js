@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Segment, List, Divider, Icon } from 'semantic-ui-react';
+import { Segment, List, Divider, Icon, Button } from 'semantic-ui-react';
 import { graphql, compose } from 'react-apollo';
 
 //queries and mutations
@@ -9,12 +9,14 @@ import getCategories from '../queries/getProductCategories';
 
 //components
 import SingleListProduct from './product/SigleListProduct';
-import AddNewModal from './products/AddNewModal';
+//import AddNewModal from './products/AddNewModal';
 import SearchProducts from './products/SearchProducts';
 import ShowInStock from './products/ShowInStock';
 import FilterProducts from './products/FilterProducts';
 
 import constants from '../config/constants';
+
+import { Link } from 'react-router-dom';
 
 //import { withAuthenticator } from 'aws-amplify-react';
 
@@ -50,14 +52,18 @@ class Products extends Component {
 
     return (
       <div className="right">
-        {this.props.network < 7 && <div>Loading ...</div>}
+        
         <Segment>
           <div className="products-header">
             <Icon bordered size="large" name="barcode" />
             <FilterProducts categories={this.props.categories} />
             <ShowInStock />
             <SearchProducts />
-            <AddNewModal />
+            <Link to="/dashboard/products/new">
+              <Button primary>
+                  New Product
+              </Button>
+              </Link>
           </div>
           <Divider section />
           <List divided>
@@ -66,6 +72,7 @@ class Products extends Component {
             }
           </List>
         </Segment>
+        {this.props.network < 7 && <div>Loading ...</div>}
       </div>
     );
   }
