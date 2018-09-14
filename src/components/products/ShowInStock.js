@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Checkbox, Form } from 'semantic-ui-react'
+import { graphql } from 'react-apollo'
+import query from '../../queries/getAllUserProducts'
 
 class ShowInStock extends Component{
     constructor(props){
@@ -25,4 +27,4 @@ class ShowInStock extends Component{
     }
 } 
 
-export default ShowInStock;
+export default graphql(query)(ShowInStock);

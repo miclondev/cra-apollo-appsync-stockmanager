@@ -3,7 +3,11 @@ import React, { Component } from 'react';
 class Sales extends Component {
     render(){
         return(
-            <div/>
+            <div>
+                <h1>
+                Sales Page
+                </h1>
+            </div>
         )
     }
 }

@@ -37,12 +37,18 @@ export default class MenuExampleSizeVerticalLarge extends Component {
             />
 
           </Menu.Menu>
-        </Menu.Item>
 
-        <Menu.Item name='updates' active={activeItem === 'updates'}>
-          <Label>1</Label>
-          Stock
+
         </Menu.Item>
+        
+    
+          <Menu.Item name='stock' active={activeItem === 'stock'}>
+          <Link to="/dashboard/stock">
+            <Label>1</Label>
+            Stock
+            </Link>
+        </Menu.Item>
+        
 
         <Menu.Item name='updates' active={activeItem === 'updates'}>
           <Label>1</Label>
@@ -71,7 +77,7 @@ export default class MenuExampleSizeVerticalLarge extends Component {
           <Label>1</Label>
           Targets
       </Menu.Item>
-      <Menu.Item name='updates' active={activeItem === 'updates'}>
+        <Menu.Item name='updates' active={activeItem === 'updates'}>
           <Label>1</Label>
           Settings
       </Menu.Item>
