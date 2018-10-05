@@ -8,6 +8,7 @@ import { Rehydrated } from 'aws-appsync-react';
 
 import './index.css';
 import './styles/styles.css';
+
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -44,10 +45,8 @@ const client = new AWSAppSyncClient({
            }
            return id
        }
-  
    }
 })
-
 
 const Root = () => (
     <ApolloProvider client={client}>

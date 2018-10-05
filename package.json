@@ -17,6 +17,7 @@
     "moment": "^2.22.2",
     "node-sass-chokidar": "^1.3.0",
     "react": "^16.4.2",
+    
     "react-apollo": "^2.1.9",
     "react-cognito": "^1.5.4",
     "react-dom": "^16.4.1",
